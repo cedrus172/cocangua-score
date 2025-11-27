@@ -3,95 +3,275 @@
 <head>
   <meta charset="UTF-8" />
   <title>Đếm búng tai – Cờ cá ngựa</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
   <style>
+    :root {
+      --bg: #020617;
+      --bg-soft: #0b1220;
+      --card: #020617;
+      --card-soft: #020617;
+      --border: #1f2937;
+      --text: #e5e7eb;
+      --text-muted: #9ca3af;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.12);
+      --radius-lg: 18px;
+      --radius-md: 12px;
+    }
+
     * {
       box-sizing: border-box;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-        sans-serif;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Segoe UI", sans-serif;
     }
+
     body {
       margin: 0;
-      padding: 16px;
-      background: #f3f4f6;
+      background:
+        radial-gradient(circle at top, rgba(56,189,248,0.16), transparent 55%),
+        radial-gradient(circle at bottom, rgba(74,222,128,0.08), transparent 55%),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
     }
-    h1, h2, h3 {
-      margin: 0 0 8px;
+
+    .app-wrapper {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 16px 14px 40px;
     }
+
+    .page-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      margin: -16px -14px 16px;
+      padding: 12px 16px 10px;
+      background: linear-gradient(to bottom, rgba(15,23,42,0.96), rgba(15,23,42,0.92));
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(148,163,184,0.25);
+    }
+
+    .title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 18px;
+      font-weight: 600;
+    }
+    .title-pill {
+      padding: 2px 8px;
+      font-size: 11px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,184,0.45);
+      color: var(--text-muted);
+    }
+    .subtitle {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    h2 {
+      margin: 0 0 10px;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
     .card {
-      background: #ffffff;
-      padding: 16px;
-      border-radius: 12px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
-      margin-bottom: 16px;
+      background: radial-gradient(circle at top left, rgba(56,189,248,0.16), transparent 55%), 
+                  var(--card);
+      border-radius: var(--radius-lg);
+      padding: 14px 14px 12px;
+      border: 1px solid rgba(148,163,184,0.4);
+      box-shadow: 0 18px 55px rgba(15,23,42,0.7);
+      margin-bottom: 14px;
     }
+    .card-soft {
+      background: var(--card-soft);
+      border-radius: var(--radius-lg);
+      padding: 12px 12px 10px;
+      border: 1px solid rgba(31,41,55,0.85);
+      margin-bottom: 12px;
+    }
+
     label {
-      font-size: 14px;
+      font-size: 12px;
       font-weight: 500;
       display: block;
       margin-bottom: 4px;
+      color: var(--text-muted);
     }
-    input[type="text"], select {
+
+    input[type="text"],
+    select {
       width: 100%;
-      padding: 6px 8px;
-      border-radius: 6px;
-      border: 1px solid #d1d5db;
-      font-size: 14px;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 8px;
-    }
-    th, td {
-      padding: 6px 8px;
-      text-align: center;
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 1px solid rgba(55,65,81,0.9);
+      background: rgba(15,23,42,0.95);
+      color: var(--text);
       font-size: 13px;
-      border: 1px solid #e5e7eb;
+      outline: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease,
+        background 0.15s ease;
     }
-    th {
-      background: #f9fafb;
-      font-weight: 600;
+    input::placeholder {
+      color: rgba(148,163,184,0.5);
     }
+    input:focus,
+    select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(56,189,248,0.4);
+      background: #020617;
+    }
+
+    .hint {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin: 6px 0 0;
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
     .btn {
       border: none;
-      border-radius: 6px;
-      padding: 8px 12px;
-      font-size: 14px;
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 13px;
       cursor: pointer;
       font-weight: 500;
-      background: #2563eb;
-      color: white;
+      background: linear-gradient(to right, #38bdf8, #22c55e);
+      color: #0b1120;
+      letter-spacing: 0.02em;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      box-shadow: 0 10px 32px rgba(34,197,94,0.3);
+      border: 1px solid rgba(8,47,73,0.7);
+      flex: 1 1 130px;
+    }
+    .btn span.icon {
+      font-size: 15px;
     }
     .btn-secondary {
-      background: #6b7280;
-      color: white;
+      background: rgba(15,23,42,0.95);
+      color: var(--text-muted);
+      box-shadow: none;
+      border: 1px solid rgba(55,65,81,0.9);
+      flex: 0 0 auto;
+    }
+    .btn-danger {
+      background: radial-gradient(circle at top left, rgba(248,113,113,0.16), transparent 60%),
+                  #7f1d1d;
+      color: #fee2e2;
+      box-shadow: 0 10px 30px rgba(248,113,113,0.35);
+      border-color: rgba(127,29,29,0.9);
     }
     .btn:disabled {
-      opacity: 0.6;
+      opacity: 0.55;
       cursor: not-allowed;
+      box-shadow: none;
     }
+
     .row {
       display: flex;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 10px;
     }
     .col {
-      flex: 1 1 180px;
-      min-width: 150px;
+      flex: 1 1 140px;
+      min-width: min(100%, 180px);
     }
+
+    .section-title {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      background: rgba(15,23,42,0.9);
+      border: 1px solid rgba(55,65,81,0.9);
+      color: var(--text-muted);
+    }
+    .pill-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: var(--accent);
+    }
+
+    .table-wrapper {
+      margin-top: 8px;
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(31,41,55,0.9);
+      background: radial-gradient(circle at top left, rgba(15,23,42,0.98), rgba(15,23,42,0.98));
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 420px;
+    }
+
+    th, td {
+      padding: 7px 8px;
+      text-align: center;
+      font-size: 12px;
+      border-bottom: 1px solid rgba(31,41,55,0.9);
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+    th {
+      background: rgba(15,23,42,0.96);
+      font-weight: 600;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+    tbody tr:nth-child(even) td {
+      background: rgba(15,23,42,0.92);
+    }
+    tbody tr:nth-child(odd) td {
+      background: rgba(15,23,42,0.98);
+    }
+    td.text-left {
+      text-align: left;
+    }
+
     .badge-color {
       display: inline-flex;
       align-items: center;
       gap: 6px;
       padding: 2px 8px;
       border-radius: 999px;
-      font-size: 12px;
-      border: 1px solid #e5e7eb;
-      background: #f9fafb;
+      font-size: 11px;
+      border: 1px solid rgba(55,65,81,0.9);
+      background: rgba(15,23,42,0.95);
+      color: var(--text-muted);
     }
     .dot {
-      width: 10px;
-      height: 10px;
+      width: 9px;
+      height: 9px;
       border-radius: 999px;
       display: inline-block;
     }
@@ -99,236 +279,268 @@
     .dot-green { background: #22c55e; }
     .dot-blue { background: #3b82f6; }
     .dot-yellow { background: #eab308; }
-    .section-title {
-      font-size: 15px;
-      font-weight: 600;
-      margin-bottom: 4px;
-      text-align: left;
+
+    .section-grid {
+      display: grid;
+      grid-template-columns: minmax(0,1fr);
+      gap: 10px;
+      margin-top: 6px;
     }
-    .hint {
-      font-size: 12px;
-      color: #6b7280;
-      margin-bottom: 8px;
+
+    @media (min-width: 720px) {
+      .card, .card-soft {
+        padding: 14px 16px 14px;
+      }
+      .section-grid {
+        grid-template-columns: repeat(3, minmax(0,1fr));
+      }
     }
-    .actions-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 16px;
-      margin-top: 8px;
+
+    hr.divider {
+      border: none;
+      border-top: 1px dashed rgba(55,65,81,0.9);
+      margin: 12px 0;
     }
-    .actions-row > div {
-      flex: 1 1 260px;
-      min-width: 240px;
-    }
-    .text-left { text-align: left; }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h1>Đếm búng tai – Cờ cá ngựa (4 người)</h1>
-    <p class="hint">
-      Đếm tổng số lần mỗi người bị búng tai, chi tiết “ai búng ai”, có cấn trừ ngược chiều và thưởng phạt khi xong trận.
-    </p>
+  <div class="page-header">
+    <div class="title">
+      <span>Đếm búng tai – Cờ cá ngựa</span>
+      <span class="title-pill">4 người · Mobile first</span>
+    </div>
+    <div class="subtitle">
+      Nhập người chơi, bấm các nút theo luật, hệ thống tự tính ai búng ai và tổng số lần bị búng.
+    </div>
   </div>
 
-  <!-- Cấu hình người chơi -->
-  <div class="card">
-    <h2>Cấu hình người chơi</h2>
-    <div class="row">
-      <div class="col">
-        <label for="name1">Người chơi 1</label>
-        <input type="text" id="name1" placeholder="Tên người chơi 1" />
+  <div class="app-wrapper">
+    <!-- Cấu hình người chơi -->
+    <div class="card">
+      <h2>Cấu hình người chơi</h2>
+      <div class="row">
+        <div class="col">
+          <label for="name1">Người chơi 1</label>
+          <input type="text" id="name1" placeholder="Vũ, Huyền, …" />
+        </div>
+        <div class="col">
+          <label for="color1">Màu</label>
+          <select id="color1">
+            <option value="red">Đỏ</option>
+            <option value="green">Xanh lá</option>
+            <option value="blue">Xanh dương</option>
+            <option value="yellow">Vàng</option>
+          </select>
+        </div>
       </div>
-      <div class="col">
-        <label for="color1">Màu</label>
-        <select id="color1">
-          <option value="red">Đỏ</option>
-          <option value="green">Xanh lá</option>
-          <option value="blue">Xanh dương</option>
-          <option value="yellow">Vàng</option>
-        </select>
+
+      <div class="row" style="margin-top: 6px;">
+        <div class="col">
+          <label for="name2">Người chơi 2</label>
+          <input type="text" id="name2" placeholder="Tên người chơi 2" />
+        </div>
+        <div class="col">
+          <label for="color2">Màu</label>
+          <select id="color2">
+            <option value="red">Đỏ</option>
+            <option value="green">Xanh lá</option>
+            <option value="blue">Xanh dương</option>
+            <option value="yellow">Vàng</option>
+          </select>
+        </div>
       </div>
-    </div>
 
-    <div class="row" style="margin-top: 8px;">
-      <div class="col">
-        <label for="name2">Người chơi 2</label>
-        <input type="text" id="name2" placeholder="Tên người chơi 2" />
+      <div class="row" style="margin-top: 6px;">
+        <div class="col">
+          <label for="name3">Người chơi 3</label>
+          <input type="text" id="name3" placeholder="Tên người chơi 3" />
+        </div>
+        <div class="col">
+          <label for="color3">Màu</label>
+          <select id="color3">
+            <option value="red">Đỏ</option>
+            <option value="green">Xanh lá</option>
+            <option value="blue">Xanh dương</option>
+            <option value="yellow">Vàng</option>
+          </select>
+        </div>
       </div>
-      <div class="col">
-        <label for="color2">Màu</label>
-        <select id="color2">
-          <option value="red">Đỏ</option>
-          <option value="green">Xanh lá</option>
-          <option value="blue">Xanh dương</option>
-          <option value="yellow">Vàng</option>
-        </select>
+
+      <div class="row" style="margin-top: 6px;">
+        <div class="col">
+          <label for="name4">Người chơi 4</label>
+          <input type="text" id="name4" placeholder="Tên người chơi 4" />
+        </div>
+        <div class="col">
+          <label for="color4">Màu</label>
+          <select id="color4">
+            <option value="red">Đỏ</option>
+            <option value="green">Xanh lá</option>
+            <option value="blue">Xanh dương</option>
+            <option value="yellow">Vàng</option>
+          </select>
+        </div>
       </div>
-    </div>
 
-    <div class="row" style="margin-top: 8px;">
-      <div class="col">
-        <label for="name3">Người chơi 3</label>
-        <input type="text" id="name3" placeholder="Tên người chơi 3" />
-      </div>
-      <div class="col">
-        <label for="color3">Màu</label>
-        <select id="color3">
-          <option value="red">Đỏ</option>
-          <option value="green">Xanh lá</option>
-          <option value="blue">Xanh dương</option>
-          <option value="yellow">Vàng</option>
-        </select>
-      </div>
-    </div>
+      <p class="hint">
+        Mỗi người nên có 1 màu riêng cho dễ nhìn (nhưng không bắt buộc).
+      </p>
 
-    <div class="row" style="margin-top: 8px;">
-      <div class="col">
-        <label for="name4">Người chơi 4</label>
-        <input type="text" id="name4" placeholder="Tên người chơi 4" />
-      </div>
-      <div class="col">
-        <label for="color4">Màu</label>
-        <select id="color4">
-          <option value="red">Đỏ</option>
-          <option value="green">Xanh lá</option>
-          <option value="blue">Xanh dương</option>
-          <option value="yellow">Vàng</option>
-        </select>
-      </div>
-    </div>
-
-    <p class="hint" style="margin-top: 8px;">
-      Gợi ý: mỗi màu nên chỉ dùng cho 1 người chơi.
-    </p>
-
-    <button class="btn" id="initGameBtn">Khởi tạo / Cập nhật người chơi</button>
-    <button class="btn btn-secondary" id="resetCountsBtn" disabled>Reset toàn bộ</button>
-  </div>
-
-  <!-- Khu vực chơi -->
-  <div id="gameArea" class="card" style="display:none;">
-    <h2>Bảng tổng số lần bị búng tai</h2>
-    <p class="hint">
-      Tổng số lần mỗi người bị búng tai (sau khi đã cấn trừ qua lại).
-    </p>
-    <table>
-      <thead>
-        <tr>
-          <th>#</th>
-          <th class="text-left">Người chơi</th>
-          <th>Màu</th>
-          <th>Số lần bị búng tai</th>
-        </tr>
-      </thead>
-      <tbody id="scoreBody"></tbody>
-    </table>
-
-    <h2 style="margin-top:16px;">Ma trận “ai búng tai ai” (đã cấn trừ)</h2>
-    <p class="hint">
-      Hàng là người <strong>búng</strong>, cột là người <strong>bị búng</strong>.  
-      Ví dụ: nếu Vũ búng Huyền 3 lần, Huyền búng lại Vũ 1 lần, ma trận sẽ hiển thị Vũ → Huyền = 2, Huyền → Vũ = 0.
-    </p>
-    <table id="matrixTable">
-      <thead id="matrixHead"></thead>
-      <tbody id="matrixBody"></tbody>
-    </table>
-
-    <hr style="margin: 16px 0; border: none; border-top: 1px solid #e5e7eb;" />
-
-    <h3 class="section-title">Các thao tác theo luật</h3>
-    <p class="hint">
-      Hệ thống sẽ tự cộng vào ma trận <strong>người búng → người bị búng</strong>, có cấn trừ ngược chiều.
-    </p>
-
-    <div class="actions-row">
-      <!-- Quân về chuồng số 6 đầu tiên -->
-      <div>
-        <div class="section-title">1. Quân về chuồng số 6 đầu tiên</div>
-        <p class="hint">
-          Nếu một người có 1 quân về chuồng số 6 đầu tiên, thì
-          <strong>3 người còn lại</strong> mỗi người bị +2 lần búng tai từ người đó.
-        </p>
-        <label for="firstHomeSelect">Người có quân về chuồng số 6 trước:</label>
-        <select id="firstHomeSelect"></select>
-        <button class="btn" id="firstHomeBtn" style="margin-top: 6px;">
-          Áp dụng luật 1
+      <div class="btn-row">
+        <button class="btn" id="initGameBtn">
+          <span class="icon">🎮</span>
+          <span>Khởi tạo / Cập nhật người chơi</span>
         </button>
-      </div>
-
-      <!-- Đá trong chuồng chủ nhà -->
-      <div>
-        <div class="section-title">2. Đá tại chuồng của chủ nhà</div>
-        <p class="hint">
-          Ai đang đứng ở chuồng của người khác mà bị chính chủ <strong>đá</strong> thì bị +2 lần búng tai từ chủ chuồng.
-        </p>
-        <label>Người đá (chủ chuồng):</label>
-        <select id="kickHomeAttacker"></select>
-
-        <label style="margin-top: 6px;">Người bị đá (đang đứng trong chuồng đó):</label>
-        <select id="kickHomeVictim"></select>
-
-        <button class="btn" id="kickHomeBtn" style="margin-top: 6px;">
-          Áp dụng luật 2 (+2)
-        </button>
-      </div>
-
-      <!-- Đá ngoài chuồng -->
-      <div>
-        <div class="section-title">3. Đá ở vị trí bất kỳ ngoài chuồng</div>
-        <p class="hint">
-          Ai bị đá ở vị trí bất kỳ <strong>ngoài chuồng</strong> thì bị +1 lần búng tai từ người đá.
-        </p>
-        <label>Người đá:</label>
-        <select id="kickNormalAttacker"></select>
-
-        <label style="margin-top: 6px;">Người bị đá:</label>
-        <select id="kickNormalVictim"></select>
-
-        <button class="btn" id="kickNormalBtn" style="margin-top: 6px;">
-          Áp dụng luật 3 (+1)
+        <button class="btn btn-danger" id="resetCountsBtn" disabled>
+          <span class="icon">♻️</span>
+          <span>Reset toàn bộ</span>
         </button>
       </div>
     </div>
 
-    <hr style="margin: 16px 0; border: none; border-top: 1px solid #e5e7eb;" />
+    <!-- Khu vực chơi -->
+    <div id="gameArea" style="display:none;">
+      <div class="card-soft">
+        <div class="section-title">Tổng số lần bị búng tai</div>
+        <p class="hint">
+          Đã cấn trừ qua lại. Ví dụ: Vũ búng Huyền 3, Huyền búng lại Vũ 1 ⇒ hiển thị Vũ→Huyền = 2, Huyền→Vũ = 0.
+        </p>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th class="text-left">Người chơi</th>
+                <th>Màu</th>
+                <th>Tổng lần bị búng</th>
+              </tr>
+            </thead>
+            <tbody id="scoreBody"></tbody>
+          </table>
+        </div>
+      </div>
 
-    <!-- Xong trận -->
-    <h3 class="section-title">4. Xong trận – Xếp hạng 1, 2, 3, 4</h3>
-    <p class="hint">
-      Chọn thứ hạng cuối trận. Người đứng <strong>nhất</strong> sẽ búng người đứng
-      <strong>nhì</strong> +3 lần, người đứng <strong>ba</strong> +4 lần, người đứng
-      <strong>bốn</strong> +5 lần (cũng theo kiểu cấn trừ ngược chiều).
-    </p>
-    <div class="row">
-      <div class="col">
-        <label for="rank1Select">Hạng 1 (Nhất):</label>
-        <select id="rank1Select"></select>
+      <div class="card-soft">
+        <div class="section-title">Ma trận “ai búng tai ai”</div>
+        <p class="hint">
+          Hàng là người <strong>búng</strong>, cột là người <strong>bị búng</strong> (đã cấn trừ hai chiều).
+        </p>
+        <div class="table-wrapper">
+          <table id="matrixTable">
+            <thead id="matrixHead"></thead>
+            <tbody id="matrixBody"></tbody>
+          </table>
+        </div>
       </div>
-      <div class="col">
-        <label for="rank2Select">Hạng 2 (Nhì):</label>
-        <select id="rank2Select"></select>
+
+      <div class="card-soft">
+        <div class="section-title">Các thao tác theo luật</div>
+        <p class="hint">
+          Mỗi thao tác sẽ tự cộng (và cấn trừ) vào ma trận người búng → người bị búng.
+        </p>
+
+        <div class="section-grid">
+          <!-- Quân về chuồng số 6 đầu tiên -->
+          <div>
+            <div class="pill">
+              <span class="pill-dot"></span>
+              <span>Luật 1 – Về chuồng số 6</span>
+            </div>
+            <p class="hint" style="margin-top:4px;">
+              Ai về chuồng số 6 đầu tiên thì 3 người còn lại mỗi người bị +2 lần búng tai từ người đó.
+            </p>
+            <label for="firstHomeSelect">Người về chuồng số 6 trước:</label>
+            <select id="firstHomeSelect"></select>
+            <button class="btn btn-secondary" id="firstHomeBtn" style="width:100%;margin-top:6px;">
+              Áp dụng luật 1
+            </button>
+          </div>
+
+          <!-- Đá trong chuồng chủ nhà -->
+          <div>
+            <div class="pill">
+              <span class="pill-dot"></span>
+              <span>Luật 2 – Đá trong chuồng</span>
+            </div>
+            <p class="hint" style="margin-top:4px;">
+              Đứng trong chuồng của người khác mà bị chủ chuồng đá ⇒ bị +2 lần búng từ chủ chuồng.
+            </p>
+            <label>Người đá (chủ chuồng):</label>
+            <select id="kickHomeAttacker"></select>
+
+            <label style="margin-top:6px;">Người bị đá:</label>
+            <select id="kickHomeVictim"></select>
+
+            <button class="btn btn-secondary" id="kickHomeBtn" style="width:100%;margin-top:6px;">
+              Áp dụng luật 2 (+2)
+            </button>
+          </div>
+
+          <!-- Đá ngoài chuồng -->
+          <div>
+            <div class="pill">
+              <span class="pill-dot"></span>
+              <span>Luật 3 – Đá ngoài chuồng</span>
+            </div>
+            <p class="hint" style="margin-top:4px;">
+              Ai bị đá ngoài chuồng ⇒ bị +1 lần búng tai từ người đá.
+            </p>
+            <label>Người đá:</label>
+            <select id="kickNormalAttacker"></select>
+
+            <label style="margin-top:6px;">Người bị đá:</label>
+            <select id="kickNormalVictim"></select>
+
+            <button class="btn btn-secondary" id="kickNormalBtn" style="width:100%;margin-top:6px;">
+              Áp dụng luật 3 (+1)
+            </button>
+          </div>
+        </div>
+
+        <hr class="divider" />
+
+        <!-- Xong trận -->
+        <div>
+          <div class="pill">
+            <span class="pill-dot"></span>
+            <span>Luật 4 – Xong trận, xếp hạng</span>
+          </div>
+          <p class="hint" style="margin-top:4px;">
+            Chọn thứ hạng cuối trận. Người <strong>nhất</strong> sẽ búng người
+            <strong>nhì</strong> +3, người <strong>ba</strong> +4, người
+            <strong>bốn</strong> +5 (vẫn cấn trừ hai chiều).
+          </p>
+          <div class="row">
+            <div class="col">
+              <label for="rank1Select">Hạng 1 (Nhất):</label>
+              <select id="rank1Select"></select>
+            </div>
+            <div class="col">
+              <label for="rank2Select">Hạng 2 (Nhì):</label>
+              <select id="rank2Select"></select>
+            </div>
+          </div>
+          <div class="row" style="margin-top:6px;">
+            <div class="col">
+              <label for="rank3Select">Hạng 3 (Ba):</label>
+              <select id="rank3Select"></select>
+            </div>
+            <div class="col">
+              <label for="rank4Select">Hạng 4 (Bốn):</label>
+              <select id="rank4Select"></select>
+            </div>
+          </div>
+          <button class="btn" id="finishMatchBtn" style="width:100%;margin-top:8px;">
+            <span class="icon">🏁</span>
+            <span>Xong trận – Áp dụng thưởng phạt</span>
+          </button>
+        </div>
       </div>
     </div>
-    <div class="row" style="margin-top: 8px;">
-      <div class="col">
-        <label for="rank3Select">Hạng 3 (Ba):</label>
-        <select id="rank3Select"></select>
-      </div>
-      <div class="col">
-        <label for="rank4Select">Hạng 4 (Bốn):</label>
-        <select id="rank4Select"></select>
-      </div>
-    </div>
-    <button class="btn" id="finishMatchBtn" style="margin-top: 8px;">
-      Xong trận – Áp dụng thưởng phạt
-    </button>
   </div>
 
   <script>
-    // Danh sách người chơi
     const players = [];
-    // Ma trận búng tai: flickMatrix[attackerIndex][victimIndex]
     let flickMatrix = [];
 
     function colorClass(color) {
@@ -355,22 +567,18 @@
       flickMatrix = [];
       for (let i = 0; i < 4; i++) {
         const row = [];
-        for (let j = 0; j < 4; j++) {
-          row.push(0);
-        }
+        for (let j = 0; j < 4; j++) row.push(0);
         flickMatrix.push(row);
       }
     }
 
-    // Cộng búng tai có cấn trừ ngược chiều
-    // attackerIndex búng victimIndex "amount" lần
+    // Cộng búng có cấn trừ ngược chiều
     function addFlick(attackerIndex, victimIndex, amount) {
       if (attackerIndex === victimIndex || amount <= 0) return;
 
       let remain = amount;
-      const opp = flickMatrix[victimIndex][attackerIndex]; // chiều ngược lại
+      const opp = flickMatrix[victimIndex][attackerIndex];
 
-      // Cấn trừ trước
       if (opp >= remain) {
         flickMatrix[victimIndex][attackerIndex] -= remain;
         remain = 0;
@@ -379,7 +587,6 @@
         flickMatrix[victimIndex][attackerIndex] = 0;
       }
 
-      // Phần còn lại mới cộng vào chiều đúng
       if (remain > 0) {
         flickMatrix[attackerIndex][victimIndex] += remain;
       }
@@ -403,17 +610,11 @@
 
       const colorSet = new Set(colors);
       if (colorSet.size < colors.length) {
-        alert(
-          "Lưu ý: Có ít nhất hai người trùng màu. Nếu muốn đúng luật cờ cá ngựa, hãy chỉnh lại cho mỗi người một màu khác nhau."
-        );
+        alert("Lưu ý: Có ít nhất hai người trùng màu. Nếu muốn đúng luật cờ cá ngựa, hãy chỉnh lại cho mỗi người một màu khác nhau.");
       }
 
       for (let i = 0; i < 4; i++) {
-        players.push({
-          id: i + 1,
-          name: names[i],
-          color: colors[i],
-        });
+        players.push({ id: i + 1, name: names[i], color: colors[i] });
       }
 
       initMatrix();
@@ -423,12 +624,11 @@
       document.getElementById("resetCountsBtn").disabled = false;
     }
 
-    // Tính tổng số lần mỗi người bị búng tai (theo cột)
     function getTotalsPerVictim() {
       const totals = [0, 0, 0, 0];
-      for (let attacker = 0; attacker < 4; attacker++) {
-        for (let victim = 0; victim < 4; victim++) {
-          totals[victim] += flickMatrix[attacker][victim];
+      for (let a = 0; a < 4; a++) {
+        for (let v = 0; v < 4; v++) {
+          totals[v] += flickMatrix[a][v];
         }
       }
       return totals;
@@ -453,12 +653,8 @@
         const span = document.createElement("span");
         span.className = "badge-color";
         span.innerHTML =
-          '<span class="dot ' +
-          colorClass(p.color) +
-          '"></span>' +
-          "<span>" +
-          colorLabel(p.color) +
-          "</span>";
+          '<span class="dot ' + colorClass(p.color) + '"></span>' +
+          "<span>" + colorLabel(p.color) + "</span>";
         tdColor.appendChild(span);
 
         const tdTotal = document.createElement("td");
@@ -468,7 +664,6 @@
         tr.appendChild(tdName);
         tr.appendChild(tdColor);
         tr.appendChild(tdTotal);
-
         tbody.appendChild(tr);
       });
     }
@@ -477,8 +672,9 @@
       const head = document.getElementById("matrixHead");
       const body = document.getElementById("matrixBody");
 
-      // Header
       head.innerHTML = "";
+      body.innerHTML = "";
+
       const headRow = document.createElement("tr");
       const corner = document.createElement("th");
       corner.textContent = "Búng \\ Bị búng";
@@ -491,11 +687,8 @@
       });
       head.appendChild(headRow);
 
-      // Body
-      body.innerHTML = "";
       players.forEach((attacker, i) => {
         const tr = document.createElement("tr");
-
         const thName = document.createElement("th");
         thName.textContent = attacker.name;
         tr.appendChild(thName);
@@ -504,7 +697,7 @@
           const td = document.createElement("td");
           if (i === j) {
             td.textContent = "-";
-            td.style.color = "#9ca3af";
+            td.style.color = "#4b5563";
           } else {
             td.textContent = flickMatrix[i][j];
           }
@@ -520,8 +713,8 @@
       updateMatrixTable();
     }
 
-    function populateSelect(selectId) {
-      const sel = document.getElementById(selectId);
+    function populateSelect(id) {
+      const sel = document.getElementById(id);
       if (!sel) return;
       sel.innerHTML = "";
       players.forEach((p) => {
@@ -538,7 +731,6 @@
       populateSelect("kickHomeVictim");
       populateSelect("kickNormalAttacker");
       populateSelect("kickNormalVictim");
-      // Select xếp hạng cuối trận
       populateSelect("rank1Select");
       populateSelect("rank2Select");
       populateSelect("rank3Select");
@@ -551,10 +743,8 @@
       if (!id) return;
 
       const attackerIndex = id - 1;
-      for (let victimIndex = 0; victimIndex < 4; victimIndex++) {
-        if (victimIndex !== attackerIndex) {
-          addFlick(attackerIndex, victimIndex, 2);
-        }
+      for (let v = 0; v < 4; v++) {
+        if (v !== attackerIndex) addFlick(attackerIndex, v, 2);
       }
       updateAllViews();
     }
@@ -569,9 +759,7 @@
 
       const attackerId = parseInt(attackerSelect.value, 10);
       const victimId = parseInt(victimSelect.value, 10);
-
       if (!attackerId || !victimId) return;
-
       if (attackerId === victimId) {
         alert("Người đá và người bị đá không thể là cùng một người.");
         return;
@@ -579,7 +767,6 @@
 
       const attackerIndex = attackerId - 1;
       const victimIndex = victimId - 1;
-
       addFlick(attackerIndex, victimIndex, isHome ? 2 : 1);
       updateAllViews();
     }
@@ -591,27 +778,24 @@
       const r4 = parseInt(document.getElementById("rank4Select").value, 10);
 
       const ids = [r1, r2, r3, r4];
-
-      if (ids.some((id) => !id)) {
+      if (ids.some(id => !id)) {
         alert("Vui lòng chọn đủ 4 vị trí xếp hạng.");
         return;
       }
-
-      const uniqueIds = new Set(ids);
-      if (uniqueIds.size < 4) {
-        alert("Một người chỉ được đứng đúng 1 hạng. Vui lòng kiểm tra lại.");
+      const uniq = new Set(ids);
+      if (uniq.size < 4) {
+        alert("Mỗi người chỉ được đứng đúng 1 hạng. Kiểm tra lại.");
         return;
       }
 
-      const firstIndex  = r1 - 1;
-      const secondIndex = r2 - 1;
-      const thirdIndex  = r3 - 1;
-      const fourthIndex = r4 - 1;
+      const first  = r1 - 1;
+      const second = r2 - 1;
+      const third  = r3 - 1;
+      const fourth = r4 - 1;
 
-      // Người nhất búng Nhì/Ba/Bốn, có cấn trừ
-      addFlick(firstIndex, secondIndex, 3);
-      addFlick(firstIndex, thirdIndex, 4);
-      addFlick(firstIndex, fourthIndex, 5);
+      addFlick(first, second, 3);
+      addFlick(first, third, 4);
+      addFlick(first, fourth, 5);
 
       updateAllViews();
     }
@@ -621,25 +805,12 @@
       updateAllViews();
     }
 
-    // Gắn sự kiện
     document.getElementById("initGameBtn").addEventListener("click", initPlayers);
     document.getElementById("firstHomeBtn").addEventListener("click", handleFirstHome);
-    document
-      .getElementById("kickHomeBtn")
-      .addEventListener("click", function () {
-        handleKick(true);
-      });
-    document
-      .getElementById("kickNormalBtn")
-      .addEventListener("click", function () {
-        handleKick(false);
-      });
-    document
-      .getElementById("resetCountsBtn")
-      .addEventListener("click", resetCounts);
-    document
-      .getElementById("finishMatchBtn")
-      .addEventListener("click", handleFinishMatch);
+    document.getElementById("kickHomeBtn").addEventListener("click", () => handleKick(true));
+    document.getElementById("kickNormalBtn").addEventListener("click", () => handleKick(false));
+    document.getElementById("resetCountsBtn").addEventListener("click", resetCounts);
+    document.getElementById("finishMatchBtn").addEventListener("click", handleFinishMatch);
   </script>
 </body>
 </html>
