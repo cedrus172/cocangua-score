@@ -540,6 +540,8 @@
   </div>
 
   <script>
+    const STORAGE_KEY = "BUNG_TAI_STATE_V1";
+
     const players = [];
     let flickMatrix = [];
 
@@ -569,6 +571,67 @@
         const row = [];
         for (let j = 0; j < 4; j++) row.push(0);
         flickMatrix.push(row);
+      }
+    }
+
+    // Lưu trạng thái vào localStorage
+    function saveState() {
+      try {
+        const state = {
+          players: players.map(p => ({ id: p.id, name: p.name, color: p.color })),
+          flickMatrix
+        };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      } catch (e) {
+        console.error("Không lưu được localStorage:", e);
+      }
+    }
+
+    // Load trạng thái từ localStorage
+    function loadState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return;
+
+        const data = JSON.parse(raw);
+        if (!data.players || !data.flickMatrix) return;
+        if (!Array.isArray(data.players) || data.players.length !== 4) return;
+        if (!Array.isArray(data.flickMatrix) || data.flickMatrix.length !== 4) return;
+
+        // Gán players
+        players.length = 0;
+        data.players.forEach((p, idx) => {
+          players.push({
+            id: p.id ?? (idx + 1),
+            name: p.name || ("Người chơi " + (idx + 1)),
+            color: p.color || "red",
+          });
+        });
+
+        // Gán flickMatrix (đảm bảo số)
+        flickMatrix = data.flickMatrix.map(row =>
+          row.map(v => Number(v) || 0)
+        );
+
+        // Điền lại lên input
+        document.getElementById("name1").value = players[0].name;
+        document.getElementById("name2").value = players[1].name;
+        document.getElementById("name3").value = players[2].name;
+        document.getElementById("name4").value = players[3].name;
+
+        document.getElementById("color1").value = players[0].color;
+        document.getElementById("color2").value = players[1].color;
+        document.getElementById("color3").value = players[2].color;
+        document.getElementById("color4").value = players[3].color;
+
+        // Hiện khu vực chơi
+        document.getElementById("gameArea").style.display = "block";
+        document.getElementById("resetCountsBtn").disabled = false;
+
+        updateAllViews();
+        populateSelects();
+      } catch (e) {
+        console.error("Không load được localStorage:", e);
       }
     }
 
@@ -622,6 +685,8 @@
       populateSelects();
       document.getElementById("gameArea").style.display = "block";
       document.getElementById("resetCountsBtn").disabled = false;
+
+      saveState();
     }
 
     function getTotalsPerVictim() {
@@ -747,6 +812,7 @@
         if (v !== attackerIndex) addFlick(attackerIndex, v, 2);
       }
       updateAllViews();
+      saveState();
     }
 
     function handleKick(isHome) {
@@ -769,6 +835,7 @@
       const victimIndex = victimId - 1;
       addFlick(attackerIndex, victimIndex, isHome ? 2 : 1);
       updateAllViews();
+      saveState();
     }
 
     function handleFinishMatch() {
@@ -798,11 +865,13 @@
       addFlick(first, fourth, 5);
 
       updateAllViews();
+      saveState();
     }
 
     function resetCounts() {
       initMatrix();
       updateAllViews();
+      saveState();
     }
 
     document.getElementById("initGameBtn").addEventListener("click", initPlayers);
@@ -811,6 +880,9 @@
     document.getElementById("kickNormalBtn").addEventListener("click", () => handleKick(false));
     document.getElementById("resetCountsBtn").addEventListener("click", resetCounts);
     document.getElementById("finishMatchBtn").addEventListener("click", handleFinishMatch);
+
+    // Khi load trang, thử lấy dữ liệu cũ từ localStorage
+    loadState();
   </script>
 </body>
 </html>
